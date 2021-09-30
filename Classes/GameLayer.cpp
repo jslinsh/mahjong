@@ -25,7 +25,7 @@ GameLayer::GameLayer() {
     m_iOutCardTimeOut = 30;
     initGame();
     initLayer();
-    schedule(CC_SCHEDULE_SELECTOR(GameLayer::aiEnterGame), 1.0f);    //创建个定时任务，用来添加机器人
+    //schedule(CC_SCHEDULE_SELECTOR(GameLayer::aiEnterGame), 1.0f);    //创建个定时任务，用来添加机器人
 }
 
 GameLayer::~GameLayer() {
@@ -51,12 +51,14 @@ void GameLayer::initGame() {
  * AI 进入游戏
  * @param f
  */
+/*
 void GameLayer::aiEnterGame(float) {
     //机器人玩家加入游戏，返回false说明已经满了，随机生成性别
     if (!m_GameEngine->onUserEnter(new AIPlayer(time(NULL) % 2 == 0 ? IPlayer::MALE : IPlayer::FEMALE, new AIEngine))) {
         unschedule(CC_SCHEDULE_SELECTOR(GameLayer::aiEnterGame));//人满，关闭定时任务
     };
 }
+*/
 
 void GameLayer::initLayer() {
     cocos2d::log("GameLayer initLayer");
@@ -87,7 +89,7 @@ bool GameLayer::onUserEnterEvent(IPlayer *pIPlayer) {
         pImageHeader->loadTexture(utility::toString("res/GameLayer/im_defaulthead_", m_Players[i]->getSex() == IPlayer::FEMALE ? 0 : 1, ".png"));    //设置头像
     }
     if (m_CurPlayer == GAME_PLAYER) {
-        unschedule(CC_SCHEDULE_SELECTOR(GameLayer::aiEnterGame));   //人满，关闭ai加入任务
+        //unschedule(CC_SCHEDULE_SELECTOR(GameLayer::aiEnterGame));   //人满，关闭ai加入任务
         return true;
     } //显示头像
     return true;
