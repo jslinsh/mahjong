@@ -9,11 +9,12 @@
 #include "HelloLayer.h"
 #include "GameLayer.h"
 
-ViewControl::ViewControl() {
+ViewControl::ViewControl(int index) {
     auto scene = HelloWorld::createScene();
-    GameSceneManager::getInstance()->setScene(scene);
+    GameSceneManager::getInstance()->setScene(scene, index);
     onViewNotify(NULL);
     __NotificationCenter::getInstance()->addObserver(this, callfuncO_selector(ViewControl::onViewNotify), ccNd_ViewNotify, NULL);
+    m_index = index;
 }
 
 ViewControl::~ViewControl() {
@@ -26,13 +27,13 @@ ViewControl::~ViewControl() {
  */
 void ViewControl::onViewNotify(Ref *render) {
     if (render == NULL){    //进入游戏
-        GameSceneManager::getInstance()->setRootLayer(HelloLayer::create()->GetLayer());
+        GameSceneManager::getInstance()->setRootLayer(HelloLayer::create()->GetLayer(), m_index);
         return;
     }
     ViewObject *pObject = (ViewObject *) render;
     if (pObject->m_MainString == VIEW_SWITCH_MAIN_LAYER){
         if (pObject->m_subString == "GameLayer"){    //切换到游戏视图
-            GameSceneManager::getInstance()->setRootLayer(GameLayer::create()->GetLayer());
+            GameSceneManager::getInstance()->setRootLayer(GameLayer::create()->GetLayer(), m_index);
         }
     }
 

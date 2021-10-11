@@ -17,7 +17,7 @@ using namespace cocos2d;
 class ViewControl : public Node{
 
 public:
-    ViewControl();
+    ViewControl(int index);
     ~ViewControl();
 
     /**
@@ -25,6 +25,9 @@ public:
      * @param render
      */
     void onViewNotify(Ref* render);
+
+private:
+    int m_index = 0;
 
 };
 

@@ -104,7 +104,14 @@ bool AppDelegate::applicationDidFinishLaunching() {
     //加载配置
     GameConfig::getInstance()->loadConfig();
     // create a scene. it's an autorelease object
-    new ViewControl();
+
+    // Create scene for each user
+    // each scene will be rendered in a view
+    view_controls[0] = new ViewControl(0);
+    view_controls[1] = new ViewControl(1);
+    view_controls[2] = new ViewControl(2);
+    view_controls[3] = new ViewControl(3);
+
     return true;
 }
 

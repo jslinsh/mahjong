@@ -16,33 +16,43 @@ GameSceneManager *GameSceneManager::getInstance() {
 
 GameSceneManager::GameSceneManager() {
     cocos2d::log("初始化 GameSceneManager");
-    this->m_pCurrentScene = NULL;
-    this->m_pRootLayer = NULL;
+    //this->m_pCurrentScene = NULL;
+    //this->m_pRootLayer = NULL;
 }
 
 GameSceneManager::~GameSceneManager() {
     cocos2d::log("释放 GameSceneManager");
 }
 
-void GameSceneManager::setScene(Scene *pScene) {
-    if (this->m_pCurrentScene != NULL) {
-        Director::getInstance()->replaceScene(pScene);
-    } else
-        Director::getInstance()->runWithScene(pScene);
+void GameSceneManager::setScene(Scene *pScene, int index) {
+    if(index <0 && index >= GAME_PLAYER) {
+        return;
+    }
+    if (this->m_pScenes[index] != NULL) {
+        Director::getInstance()->replaceScene(pScene, index);
+    } else {
+        Director::getInstance()->
+    }
+        //Director::getInstance()->runWithScene(pScene);
 
-    this->m_pCurrentScene = pScene;
+    this->m_pScenes[index] = pScene;
 }
 
-Scene *GameSceneManager::getScene() {
-    return this->m_pCurrentScene;
+Scene *GameSceneManager::getScene(int index) {
+    if(index >=0 && index < GAME_PLAYER)
+        return this->m_pScenes[index];
+    return NULL;
 }
 
-void GameSceneManager::setRootLayer(Node *pLayer) {
-    this->m_pCurrentScene->removeAllChildren();   //移除子节点
+void GameSceneManager::setRootLayer(Node *pLayer, int index) {
+    if(index <0 && index >= GAME_PLAYER) {
+        return;
+    }
+    this->m_pScenes[i]->removeAllChildren();   //移除子节点
     pLayer->setAnchorPoint(Vec2(0.5f, 0.5f));      //居中显示
     pLayer->setPosition(getVisibleSize() / 2);
-    this->m_pRootLayer = pLayer;
-    this->m_pCurrentScene->addChild(pLayer);
+    this->m_pRootLayers[index] = pLayer;
+    this->m_pScene[index]->addChild(pLayer);
 }
 
 /**
@@ -85,7 +95,9 @@ void GameSceneManager::alert(std::string strContent, bool autoClose, bool keep, 
     pAlertLayer->setAlertType(AlertLayer::ENUM_ALERT, autoClose);
     pAlertLayer->setCallback(okTarget, okSelector);
     pAlertLayer->setText(strContent);
-    m_pRootLayer->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+    for(int i = 0; i < GAME_PLAYER; i++) {
+        m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+    }
 }
 
 /**
@@ -113,7 +125,9 @@ void GameSceneManager::confirm(std::string strContent, bool autoClose, bool keep
     pAlertLayer->setAlertType(AlertLayer::ENUM_CONFIRM, autoClose);
     pAlertLayer->setCallback(okTarget, okSelector, cancelTarget, cancelSelector);
     pAlertLayer->setText(strContent);
-    m_pRootLayer->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+    for(int i = 0; i < GAME_PLAYER; i++) {
+        m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+    }
 }
 
 void GameSceneManager::removeAlertTag() {

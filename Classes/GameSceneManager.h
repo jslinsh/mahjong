@@ -16,9 +16,9 @@ class GameSceneManager {
 
 private:
     //场景
-    Scene *m_pCurrentScene;
+    //Scene *m_pCurrentScene;
     //根节点
-    Node *m_pRootLayer;
+    //Node *m_pRootLayer;
 public:
     /**
      * 构造函数
@@ -34,19 +34,19 @@ public:
      * 设置当前场景
      * @param pScene
      */
-    void setScene(Scene *pScene);
+    void setScene(Scene *pScene, int index);
 
     /**
      * 获取当前场景
      * @return
      */
-    Scene *getScene();
+    //Scene *getScene();
 
     /**
      * 设置Layer为根节点
      * @param pLayer
      */
-    void setRootLayer(Node *pLayer);
+    void setRootLayer(Node *pLayer, int index);
 
     /**
      * 提示框
@@ -82,6 +82,9 @@ public:
      */
     static GameSceneManager *getInstance();
 
+private:
+    Scene *m_pScenes[GAME_PLAYER];
+    Node  *m_pRootLayers[GAME_PLAYER];
 };
 
 
