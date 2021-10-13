@@ -51,6 +51,7 @@ public:
     CREATE_FUNC(GameLayer)
 
     GameLayer();    // 构造函数
+    void SetChairIndex(int chairIndex);
     ~GameLayer();   //析构
 protected:
     virtual void onTouchEnded(ui::Widget *pWidget, const char *pName);  //按钮事件处理

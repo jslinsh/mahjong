@@ -33,7 +33,9 @@ void ViewControl::onViewNotify(Ref *render) {
     ViewObject *pObject = (ViewObject *) render;
     if (pObject->m_MainString == VIEW_SWITCH_MAIN_LAYER){
         if (pObject->m_subString == "GameLayer"){    //切换到游戏视图
-            GameSceneManager::getInstance()->setRootLayer(GameLayer::create()->GetLayer(), m_index);
+            GameLayer* pGameLayer = GameLayer::create();
+            pGameLayer->SetChairIndex(m_index);
+            GameSceneManager::getInstance()->setRootLayer(pGameLayer->GetLayer(), m_index);
         }
     }
 

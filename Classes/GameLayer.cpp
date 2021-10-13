@@ -32,6 +32,11 @@ GameLayer::~GameLayer() {
 
 }
 
+void GameLayer::SetChairIndex(int chairIndex) {
+    if(chairIndex >= 0 && chairIndex < GAME_PLAYER)
+        m_MeChairID = chairIndex;
+}
+
 /**
  * 初始化游戏变量
  */
