@@ -7,6 +7,7 @@
 
 #include "cocos2d.h"
 #include "AlertLayer.h"
+#include "GameCmd.h"
 
 #define TAG_ALERT                     10000  //提示框层次
 

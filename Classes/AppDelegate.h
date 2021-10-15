@@ -62,7 +62,7 @@ public:
     virtual void applicationWillEnterForeground();
 
 private:
-    ViewControls* view_controls[GAME_PLAYER];
+    ViewControl* view_controls[GAME_PLAYER];
 };
 
 #endif // _APP_DELEGATE_H_

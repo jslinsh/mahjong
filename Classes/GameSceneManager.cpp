@@ -29,30 +29,31 @@ void GameSceneManager::setScene(Scene *pScene, int index) {
         return;
     }
     if (this->m_pScenes[index] != NULL) {
-        Director::getInstance()->replaceScene(pScene, index);
+        Director::getInstance()->replaceScene(pScene);
     } else {
-        Director::getInstance()->
+        Director::getInstance()->runParallelScene(pScene,index);
     }
         //Director::getInstance()->runWithScene(pScene);
 
     this->m_pScenes[index] = pScene;
 }
-
+/*
 Scene *GameSceneManager::getScene(int index) {
     if(index >=0 && index < GAME_PLAYER)
         return this->m_pScenes[index];
     return NULL;
 }
+ */
 
 void GameSceneManager::setRootLayer(Node *pLayer, int index) {
     if(index <0 && index >= GAME_PLAYER) {
         return;
     }
-    this->m_pScenes[i]->removeAllChildren();   //移除子节点
+    this->m_pScenes[index]->removeAllChildren();   //移除子节点
     pLayer->setAnchorPoint(Vec2(0.5f, 0.5f));      //居中显示
     pLayer->setPosition(getVisibleSize() / 2);
     this->m_pRootLayers[index] = pLayer;
-    this->m_pScene[index]->addChild(pLayer);
+    this->m_pScenes[index]->addChild(pLayer);
 }
 
 /**
@@ -131,8 +132,10 @@ void GameSceneManager::confirm(std::string strContent, bool autoClose, bool keep
 }
 
 void GameSceneManager::removeAlertTag() {
-    Node *pNode = UIHelper::seekNodeByTag(m_pRootLayer, TAG_ALERT);
-    if (pNode != NULL) {
-        pNode->removeFromParent();
+    for(int i = 0; i < GAME_PLAYER; i++) {
+        Node *pNode = UIHelper::seekNodeByTag(m_pRootLayers[i], TAG_ALERT);
+        if (pNode != NULL) {
+            pNode->removeFromParent();
+        }
     }
 }
