@@ -28,11 +28,8 @@ void GameSceneManager::setScene(Scene *pScene, int index) {
     if(index <0 && index >= GAME_PLAYER) {
         return;
     }
-    if (this->m_pScenes[index] != NULL) {
-        Director::getInstance()->replaceScene(pScene);
-    } else {
-        Director::getInstance()->runParallelScene(pScene,index);
-    }
+    //Use this only call to Run Parallel Scenes
+    Director::getInstance()->runParallelScene(pScene,index);
         //Director::getInstance()->runWithScene(pScene);
 
     this->m_pScenes[index] = pScene;

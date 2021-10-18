@@ -102,6 +102,7 @@ android {
             }
         }
     }
+    ndkVersion '23.0.7599858'
 }
 
 android.applicationVariants.all { variant ->
@@ -115,6 +116,10 @@ android.applicationVariants.all { variant ->
             exclude "**/*.gz"
         }
     }
+}
+
+allprojects {
+    buildDir ="${projectDir} /../../../../ build"
 }
 
 dependencies {
