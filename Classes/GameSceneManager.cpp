@@ -16,6 +16,10 @@ GameSceneManager *GameSceneManager::getInstance() {
 
 GameSceneManager::GameSceneManager() {
     cocos2d::log("初始化 GameSceneManager");
+    for (int i = 0; i < GAME_PLAYER; i++) {
+        m_pRootLayers[i] = NULL;
+        m_pScenes[i] = NULL;
+    }
     //this->m_pCurrentScene = NULL;
     //this->m_pRootLayer = NULL;
 }
@@ -49,6 +53,7 @@ void GameSceneManager::setRootLayer(Node *pLayer, int index) {
     this->m_pScenes[index]->removeAllChildren();   //移除子节点
     pLayer->setAnchorPoint(Vec2(0.5f, 0.5f));      //居中显示
     pLayer->setPosition(getVisibleSize() / 2);
+    cocos2d::log("setRootLayer %d, %p", index, pLayer);
     this->m_pRootLayers[index] = pLayer;
     this->m_pScenes[index]->addChild(pLayer);
 }
@@ -89,12 +94,15 @@ void GameSceneManager::alert(std::string strContent, bool autoClose, bool keep, 
     if (!keep) {
         removeAlertTag();
     }
-    AlertLayer *pAlertLayer = AlertLayer::create();
-    pAlertLayer->setAlertType(AlertLayer::ENUM_ALERT, autoClose);
-    pAlertLayer->setCallback(okTarget, okSelector);
-    pAlertLayer->setText(strContent);
-    for(int i = 0; i < GAME_PLAYER; i++) {
-        m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+
+    for (int i = 0; i < GAME_PLAYER; i++) {
+        AlertLayer *pAlertLayer = AlertLayer::create();
+        pAlertLayer->setAlertType(AlertLayer::ENUM_ALERT, autoClose);
+        pAlertLayer->setCallback(okTarget, okSelector);
+        pAlertLayer->setText(strContent);
+        cocos2d::log("GameSceneManager::alert m_pRootLayers %d %p", i, m_pRootLayers[i]);
+        if (m_pRootLayers[i] != NULL)
+            m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
     }
 }
 
@@ -119,18 +127,23 @@ void GameSceneManager::confirm(std::string strContent, bool autoClose, bool keep
     if (!keep) {
         removeAlertTag();
     }
-    AlertLayer *pAlertLayer = AlertLayer::create();
-    pAlertLayer->setAlertType(AlertLayer::ENUM_CONFIRM, autoClose);
-    pAlertLayer->setCallback(okTarget, okSelector, cancelTarget, cancelSelector);
-    pAlertLayer->setText(strContent);
-    for(int i = 0; i < GAME_PLAYER; i++) {
-        m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
+
+    for (int i = 0; i < GAME_PLAYER; i++) {
+        AlertLayer *pAlertLayer = AlertLayer::create();
+        pAlertLayer->setAlertType(AlertLayer::ENUM_CONFIRM, autoClose);
+        pAlertLayer->setCallback(okTarget, okSelector, cancelTarget, cancelSelector);
+        pAlertLayer->setText(strContent);
+        if(m_pRootLayers[i] != NULL)
+            m_pRootLayers[i]->addChild(pAlertLayer->GetLayer(), TAG_ALERT);
     }
 }
 
 void GameSceneManager::removeAlertTag() {
     for(int i = 0; i < GAME_PLAYER; i++) {
-        Node *pNode = UIHelper::seekNodeByTag(m_pRootLayers[i], TAG_ALERT);
+        Node *pNode = NULL;
+        cocos2d::log("removeAlertTag m_pRootLayers %p", m_pRootLayers[i]);
+        if (m_pRootLayers[i] != NULL)
+            pNode = UIHelper::seekNodeByTag(m_pRootLayers[i], TAG_ALERT);
         if (pNode != NULL) {
             pNode->removeFromParent();
         }

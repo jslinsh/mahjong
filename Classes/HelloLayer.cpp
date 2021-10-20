@@ -40,13 +40,34 @@ void HelloLayer::onTouchEnded(ui::Widget *pWidget, const char *pName) {
                                            "https://www.xiyoufang.com", false, false, this, CC_CALLFUNCN_SELECTOR(HelloLayer::GoToGameLayer));
 }
 
+void HelloLayer::setIndex(int index) {
+    m_index = index;
+}
+
 /**
  * 进入游戏层
  * @param pNode
  */
 void HelloLayer::GoToGameLayer(Node *pNode) {
-    cocos2d::log("进入游戏层");
+    cocos2d::log("玩家%d进入游戏层", m_index);
     ViewObject *pObject = ViewObject::create("GameLayer");
-    __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify, pObject);
+
+    switch (m_index) {
+        case 0:
+            __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify0, pObject);
+            break;
+        case 1:
+            __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify1, pObject);
+            break;
+        case 2:
+            __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify2, pObject);
+            break;
+        case 3:
+            __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify3, pObject);
+            break;
+        default:
+            __NotificationCenter::getInstance()->postNotification(ccNd_ViewNotify, pObject);
+            break;
+    }
 
 }

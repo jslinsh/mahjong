@@ -8,6 +8,11 @@
 #include "cocos2d.h"
 
 #define ccNd_ViewNotify "ccNd_ViewNotify"
+#define ccNd_ViewNotify0 "ccNd_ViewNotify0"
+#define ccNd_ViewNotify1 "ccNd_ViewNotify1"
+#define ccNd_ViewNotify2 "ccNd_ViewNotify2"
+#define ccNd_ViewNotify3 "ccNd_ViewNotify3"
+
 
 using namespace cocos2d;
 
